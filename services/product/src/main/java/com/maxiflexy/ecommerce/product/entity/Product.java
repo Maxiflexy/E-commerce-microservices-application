@@ -1,6 +1,5 @@
-package com.maxiflexy.ecommerce.product;
+package com.maxiflexy.ecommerce.product.entity;
 
-import com.maxiflexy.ecommerce.category.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
