@@ -57,9 +57,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
 
             purchasedProducts.add(mapper.toProductPurchaseResponse(product, productRequest.quantity()));
-
         }
-
         return purchasedProducts;
     }
 
