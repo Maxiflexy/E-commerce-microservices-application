@@ -68,8 +68,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(productId)
                 .map(mapper::toProductResponse)
                 .orElseThrow( () -> new EntityNotFoundException("Product not found with ID:: " + productId));
-
-
     }
 
     @Override
