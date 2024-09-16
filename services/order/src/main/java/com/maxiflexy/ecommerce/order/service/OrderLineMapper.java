@@ -1,6 +1,7 @@
 package com.maxiflexy.ecommerce.order.service;
 
 import com.maxiflexy.ecommerce.order.dto.OrderLineRequest;
+import com.maxiflexy.ecommerce.order.dto.OrderLineResponse;
 import com.maxiflexy.ecommerce.order.entity.Order;
 import com.maxiflexy.ecommerce.order.entity.OrderLine;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,12 @@ public class OrderLineMapper {
                 )
                 .productId(orderLineRequest.productId())
                 .build();
+    }
+
+    public OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        return new OrderLineResponse(
+                orderLine.getId(),
+                orderLine.getQuantity()
+        );
     }
 }
