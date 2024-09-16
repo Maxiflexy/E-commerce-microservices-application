@@ -3,6 +3,7 @@ package com.maxiflexy.ecommerce.order.service.impl;
 import com.maxiflexy.ecommerce.order.customer.CustomerClient;
 import com.maxiflexy.ecommerce.order.dto.OrderLineRequest;
 import com.maxiflexy.ecommerce.order.dto.OrderRequest;
+import com.maxiflexy.ecommerce.order.dto.OrderResponse;
 import com.maxiflexy.ecommerce.order.exception.BusinessException;
 import com.maxiflexy.ecommerce.order.kafka.OrderConfirmation;
 import com.maxiflexy.ecommerce.order.kafka.OrderProducer;
@@ -14,6 +15,9 @@ import com.maxiflexy.ecommerce.order.service.OrderMapper;
 import com.maxiflexy.ecommerce.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +67,13 @@ public class OrderServiceImpl implements OrderService {
                 )
         );
         return order.getId();
+    }
+
+    @Override
+    public List<OrderResponse> findAll() {
+        return orderRepository.findAll()
+                .stream()
+                .map(mapper::fromOrder)
+                .collect(Collectors.toList());
     }
 }
