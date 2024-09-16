@@ -13,6 +13,7 @@ import com.maxiflexy.ecommerce.order.repository.OrderRepository;
 import com.maxiflexy.ecommerce.order.service.OrderLineService;
 import com.maxiflexy.ecommerce.order.service.OrderMapper;
 import com.maxiflexy.ecommerce.order.service.OrderService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +76,14 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(mapper::fromOrder)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderResponse findById(Integer orderId) {
+        return orderRepository.findById(orderId)
+                .map(mapper::fromOrder)
+                .orElseThrow( () -> new EntityNotFoundException(String.format(
+                        "No order found with the provided ID: %d", orderId
+                )));
     }
 }

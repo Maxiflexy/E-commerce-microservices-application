@@ -9,4 +9,6 @@ public interface OrderService {
     Integer createOrder(OrderRequest orderRequest);
 
     List<OrderResponse> findAll();
+
+    OrderResponse findById(Integer orderId);
 }
