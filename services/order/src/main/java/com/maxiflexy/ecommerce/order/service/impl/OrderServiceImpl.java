@@ -7,6 +7,8 @@ import com.maxiflexy.ecommerce.order.dto.OrderResponse;
 import com.maxiflexy.ecommerce.order.exception.BusinessException;
 import com.maxiflexy.ecommerce.order.kafka.OrderConfirmation;
 import com.maxiflexy.ecommerce.order.kafka.OrderProducer;
+import com.maxiflexy.ecommerce.order.payment.PaymentClient;
+import com.maxiflexy.ecommerce.order.payment.PaymentRequest;
 import com.maxiflexy.ecommerce.order.product.ProductClient;
 import com.maxiflexy.ecommerce.order.product.PurchaseRequest;
 import com.maxiflexy.ecommerce.order.repository.OrderRepository;
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     @Override
     public Integer createOrder(OrderRequest orderRequest) {
@@ -55,7 +58,16 @@ public class OrderServiceImpl implements OrderService {
             );
         }
 
-        // todo start the payment process
+        // start the payment process
+        var paymentRequest = new PaymentRequest(
+                orderRequest.amount(),
+                orderRequest.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
+
 
         // send the order confirmation to notification microservice (kafka)
         orderProducer.sendOrderConfirmation(
