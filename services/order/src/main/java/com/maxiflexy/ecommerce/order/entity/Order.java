@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,8 +36,8 @@ public class Order {
 
     private String customerId;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderLine> orderLines;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderLine> orderLines = new ArrayList<>();
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

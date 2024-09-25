@@ -25,7 +25,6 @@ public class OrderLineService {
         return orderLineRepository.findAllByOrderId(orderId)
                 .stream()
                 .map(mapper::toOrderLineResponse)
-                .collect(Collectors.toList())
-                ;
+                .collect(Collectors.toList());
     }
 }
